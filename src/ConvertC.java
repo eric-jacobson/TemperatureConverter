@@ -1,4 +1,6 @@
-
+/*
+    Takes a Celsius temperature parameter and returns the Fahrenheit conversion
+ */
 
 public class ConvertC {
 
