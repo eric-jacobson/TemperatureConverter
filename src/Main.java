@@ -38,6 +38,7 @@ public class Main extends Application {
 
         Button celsiusButton = new Button("Convert to C");
         GridPane.setConstraints(celsiusButton, 20, 2);
+        celsiusButton.setOnAction(e -> AlertBox.displayAlert("Error!", "Alert box is working!"));
 
         Button fahrenheitButton = new Button("Convert to F");
         GridPane.setConstraints(fahrenheitButton, 21, 2);
