@@ -1,3 +1,7 @@
+/*
+    Pop up window to display an important message to the user.
+ */
+
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;

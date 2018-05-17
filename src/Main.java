@@ -13,14 +13,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    Stage window;
-
     public static void main(String[] args){
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+        Stage window;
         window = primaryStage;
         window.setTitle("Temperature Unit Converter");
 
@@ -29,21 +28,43 @@ public class Main extends Application {
         layout.setVgap(8);
         layout.setHgap(10);
 
-        Label tempLabel = new Label("Temperature:");
+        Label tempLabel;
+        tempLabel = new Label("Temperature:");
         tempLabel.setStyle("-fx-text-fill: #E8E8E8");
         GridPane.setConstraints(tempLabel, 0, 2);
 
-        TextField tempInput = new TextField();
+        TextField tempInput;
+        tempInput = new TextField();
         GridPane.setConstraints(tempInput, 1, 2);
 
-        Button celsiusButton = new Button("Convert to C");
-        GridPane.setConstraints(celsiusButton, 20, 2);
-        celsiusButton.setOnAction(e -> AlertBox.displayAlert("Error!", "Alert box is working!"));
+        Label equLabel;
+        equLabel = new Label(" = ");
+        equLabel.setStyle("-fx-text-fill: #E8E8E8");
+        GridPane.setConstraints(equLabel, 2, 2);
 
-        Button fahrenheitButton = new Button("Convert to F");
-        GridPane.setConstraints(fahrenheitButton, 21, 2);
+        TextField tempOutput;
+        tempOutput = new TextField();
+        GridPane.setConstraints(tempOutput, 3, 2);
 
-        layout.getChildren().addAll(tempLabel, tempInput, celsiusButton, fahrenheitButton);
+        Button celsiusButton;
+        celsiusButton = new Button("Convert to C");
+        GridPane.setConstraints(celsiusButton, 5, 2);
+        celsiusButton.setOnAction(e -> {
+            if(verifyInput(tempInput, tempInput.getText())){
+                celsius(tempInput, tempOutput);
+            }
+        });
+
+        Button fahrenheitButton;
+        fahrenheitButton = new Button("Convert to F");
+        GridPane.setConstraints(fahrenheitButton, 6, 2);
+        fahrenheitButton.setOnAction(e -> {
+            if(verifyInput(tempInput, tempInput.getText())){
+                fahrenheit(tempInput, tempOutput);
+            }
+        });
+
+        layout.getChildren().addAll(tempLabel, tempInput, equLabel, tempOutput, celsiusButton, fahrenheitButton);
 
         Scene scene = new Scene(layout, 800, 100);
         scene.getStylesheets().add("WindowStyle.css");
@@ -52,5 +73,25 @@ public class Main extends Application {
         window.show();
     }
 
+    private boolean verifyInput(TextField input, String message){
+        try {
+            double temp = Double.parseDouble(message);
+            return true;
+        }catch (NumberFormatException e){
+            AlertBox.displayAlert("Input Error", "Input must be a number!");
+            return false;
+        }
+    }
 
+    private void celsius(TextField input, TextField output){
+        double temp = Double.parseDouble(input.getText());
+        temp = ConvertF.convertF(temp);
+        output.setText(temp + "°");
+    }
+
+    private void fahrenheit(TextField input, TextField output){
+        double temp = Double.parseDouble(input.getText());
+        temp = ConvertC.convertC(temp);
+        output.setText(temp + "°");
+    }
 }
